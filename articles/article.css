@@ -6,7 +6,7 @@
   --ink-2:#47555a;
   --muted:#87949b;
   --grid:#e3e9e7;
-  --baseline:#c6cedb;
+  --baseline:#c3cecb;
   --border:rgba(27,36,51,0.08);
   --navy:#14322b;
   --accent:#0e7a5f;
@@ -121,7 +121,7 @@ table.info tr:nth-child(even) td{background:#fafbfd;}
 .cta .c-text{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;}
 .cta a.c-btn{
   display:inline-block;padding:12px 30px;font-size:15px;font-weight:700;color:#fff;
-  background:linear-gradient(180deg,#2a6fc4,var(--accent));border-radius:11px;text-decoration:none;
+  background:linear-gradient(180deg,#158a6b,var(--accent));border-radius:11px;text-decoration:none;
   box-shadow:0 4px 14px rgba(28,92,171,.32);letter-spacing:.04em;
 }
 .cta .c-sub{font-size:11.5px;color:var(--muted);margin-top:8px;}
