@@ -50,6 +50,28 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "副業の税金シミュレーター",
+  "url": "https://fukugyou-sim.com/",
+  "description": "副業の確定申告が必要になる20万円ラインの判定、副業で増える所得税・住民税、住民税で会社にバレないための普通徴収の手順を無料で計算できるWebツール。2026年（令和8年）分の税制に対応。",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ja",
+  "isAccessibleForFree": true,
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"},
+  "featureList": [
+    "確定申告の要否判定（20万円ルール・雑所得とアルバイト給与の両対応）",
+    "副業で増える所得税・復興特別所得税・住民税の計算",
+    "住民税を自分で納付（普通徴収）にする手順の案内",
+    "本業年収×副業所得別の税額早見表"
+  ],
+  "creator": {"@type": "Person", "name": "副業の税金シミュレーター運営者"},
+  "dateModified": "2026-07-17"
+}
+</script>
 <style>
   :root{
     --page:#f4f7f6;
@@ -535,6 +557,16 @@
     <p class="quick-note">※印は「申告不要（20万円以下）を選んだ場合の住民税のみ」の金額。経費0円・社会保険料は年収×14.5%・その他控除なしの単身会社員で試算。iDeCoや扶養控除がある場合はこれより少なくなることがあります。</p>
   </section>
 
+  <!-- コラム欄：最初の記事公開時に style="display:none" を外す。カードは最新3件まで（古いものから削除）、全記事は articles/ に載せる -->
+  <section class="card" id="columns" style="display:none">
+    <h2>副業と税金のコラム</h2>
+    <p class="sub">シミュレーションの前後に読んでおきたい、副業の税金の基礎知識です。</p>
+    <div class="article-list" id="columnList">
+      <!-- 新しい記事カードはこのリストの先頭に追加する -->
+    </div>
+    <a class="article-more" href="./articles/">コラム一覧を見る →</a>
+  </section>
+
   <section class="card">
     <h2>あわせて使いたいツール</h2>
     <p class="sub">同じ運営者による「お金の不安を数字にする」シリーズです。</p>
@@ -603,7 +635,7 @@
     </div>
     <p>副業のお金の不安を、数字に変える。</p>
     <p>制度データ：国税庁タックスアンサー（No.1900・No.2260ほか）／令和7年度税制改正資料／総務省・東京都主税局（個人住民税）</p>
-    <p><a href="https://taishoku-sim.com/" target="_blank" rel="noopener">姉妹サイト：退職シミュレーター</a> ｜ <a href="./privacy.html">プライバシーポリシー・免責事項・運営者情報</a> ｜ <a href="https://forms.gle/fLUeUgyRsNNLhdzbA" target="_blank" rel="noopener">お問い合わせ</a></p>
+    <p><a href="./articles/">コラム一覧</a> ｜ <a href="https://taishoku-sim.com/" target="_blank" rel="noopener">姉妹サイト：退職シミュレーター</a> ｜ <a href="./privacy.html">プライバシーポリシー・免責事項・運営者情報</a> ｜ <a href="https://forms.gle/fLUeUgyRsNNLhdzbA" target="_blank" rel="noopener">お問い合わせ</a></p>
     <p>最終更新：2026年7月17日</p>
   </div>
 </footer>
