@@ -948,6 +948,11 @@ function buildQuickTable() {
   $("quickTable").innerHTML = html;
 }
 
+/* ===== 計測イベント（GA4）。入力値は一切送信せず、操作の有無だけを記録する ===== */
+function ev(name, params) {
+  if (typeof gtag === "function") gtag("event", name, params || {});
+}
+
 /* ===== シェア（URLは公開ドメインに自動追従） ===== */
 const SITE_URL = location.origin.startsWith("http") ? location.origin + location.pathname : "";
 const SHARE_TEXT = "副業の税金シミュレーター｜いくらから確定申告？20万円ラインと増える税金を1分でチェック";
@@ -976,7 +981,13 @@ document.querySelectorAll("#form input[type=number]").forEach(el => {
 });
 $("calcBtn").addEventListener("click", () => {
   render();
+  ev("calculate", { tool: "fukugyou-sim" });
   $("results").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+document.querySelectorAll(".share-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    ev("share_click", { method: b.classList.contains("x") ? "x" : b.classList.contains("line") ? "line" : "copy" });
+  });
 });
 buildQuickTable();
 </script>
