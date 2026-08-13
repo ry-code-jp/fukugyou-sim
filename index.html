@@ -345,6 +345,11 @@
   table.quick td:first-child{font-weight:700;color:var(--ink);background:#fafcfb;}
   .quick-note{font-size:12.5px;color:var(--muted);margin-top:8px;}
   .quick-wrap{overflow-x:auto;}
+  /* 数値が折り返さないよう最小幅を確保し、狭い画面では横スクロールさせる */
+  table.quick.wide{min-width:560px;}
+  table.quick.wide th,table.quick.wide td{white-space:nowrap;}
+  .scroll-hint{display:none;font-size:11.5px;color:var(--muted);margin-top:5px;}
+  @media(max-width:620px){.scroll-hint{display:block;}}
 
   /* ===== 関連ツール ===== */
   .article-list a{
@@ -563,6 +568,54 @@
       <table class="quick" id="quickTable"></table>
     </div>
     <p class="quick-note">※印は「申告不要（20万円以下）を選んだ場合の住民税のみ」の金額。経費0円・社会保険料は年収×14.5%・その他控除なしの単身会社員で試算。iDeCoや扶養控除がある場合はこれより少なくなることがあります。</p>
+  </section>
+
+  <section class="card">
+    <h2>当サイト試算：20万円ラインの「段差」と、2026年分だけの逆転現象</h2>
+    <p class="sub">上のシミュレーターと同じ計算式で条件を細かく振って試算したところ、公的な解説ではあまり触れられていない2つの段差が見つかりました。どちらも当サイトの計算ツールから導いたもので、2026年分（2027年申告）の制度を前提としています。</p>
+
+    <h3 style="font-size:15px;color:var(--navy);margin:10px 0 4px;">① 副業所得が20万円を1円超えると、手取りはいくら減るか</h3>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:4px 0 8px;">副業所得が20万円以下なら確定申告は不要（住民税の申告は別途必要）です。1円超えると所得税の申告義務が生じ、20万円分すべてに所得税がかかります。その境界での差を計算しました。</p>
+    <div class="quick-wrap">
+      <table class="quick wide">
+        <tr><th>本業の年収</th><th>副業所得<br>20万円ちょうど</th><th>副業所得<br>20万円＋1円</th><th>手取りの変化</th></tr>
+        <tr><td>300万円</td><td>20,000円</td><td>30,300円</td><td>−10,299円</td></tr>
+        <tr><td>400万円</td><td>20,000円</td><td>30,200円</td><td>−10,199円</td></tr>
+        <tr><td>500万円</td><td>20,000円</td><td>40,400円</td><td>−20,399円</td></tr>
+        <tr><td>700万円</td><td>20,000円</td><td>60,800円</td><td>−40,799円</td></tr>
+        <tr><td>1,000万円</td><td>20,000円</td><td>60,800円</td><td>−40,799円</td></tr>
+      </table>
+    </div>
+    <p class="scroll-hint">← 表は横にスクロールできます</p>
+    <p class="quick-note">副業は雑所得・経費0円・社会保険料は年収×14.5%・その他控除なしの単身会社員として試算。「20万円ちょうど」の欄は申告不要を選んだ場合で、住民税のみが発生します。</p>
+    <div class="alert" style="margin-top:12px;">
+      <strong>本業700万円の人は、副業所得が1円増えるだけで手取りが約4.1万円減ります。</strong>これは20万円ルールが「所得税の申告義務の有無」を分ける線であり、境界をまたぐと20万円分すべてに所得税がかかるためです。<br>
+      ただし誤解しないでいただきたいのは、<strong>20万円以下でも住民税の申告は必要</strong>で、上の表の2万円はどのケースでも発生するという点です。また、売上を隠して所得を20万円以下に見せる行為は脱税にあたります。所得を適正に下げる方法は「実際にかかった経費を正しく計上すること」だけで、その計算は<a href="./articles/fukugyou-keihi-kaji-anbun.html">副業の経費と家事按分の記事</a>で解説しています。
+    </div>
+
+    <h3 style="font-size:15px;color:var(--navy);margin:24px 0 4px;">② 本業年収438万〜475万円の人だけ、税負担が重くなる（2026年分限定）</h3>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:4px 0 8px;">副業所得30万円で固定し、本業の年収だけを変えて試算した結果です。年収が高いほど税金も増えるはずですが、一箇所だけ逆転しています。</p>
+    <div class="quick-wrap">
+      <table class="quick wide">
+        <tr><th>本業の年収</th><th>副業所得30万円にかかる税金</th><th>負担率</th></tr>
+        <tr><td>430万円</td><td>45,300円</td><td>15.1%</td></tr>
+        <tr><td>440万円</td><td>61,200円</td><td>20.4%</td></tr>
+        <tr><td>450万円</td><td>64,600円</td><td>21.5%</td></tr>
+        <tr><td>460万円</td><td>67,900円</td><td>22.6%</td></tr>
+        <tr><td>470万円</td><td>71,200円</td><td>23.7%</td></tr>
+        <tr><td><strong>475万円</strong></td><td><strong>72,900円</strong></td><td><strong>24.3%</strong></td></tr>
+        <tr><td>476万円</td><td>60,600円</td><td>20.2%</td></tr>
+        <tr><td>500万円</td><td>60,600円</td><td>20.2%</td></tr>
+      </table>
+    </div>
+    <p class="scroll-hint">← 表は横にスクロールできます</p>
+    <p class="quick-note">条件は①と同じ（雑所得・経費0円・社会保険料は年収×14.5%・その他控除なし）。</p>
+    <div class="goodnote" style="margin-top:12px;">
+      <strong>本業475万円の人は、476万円の人より税金が12,300円多くなります。</strong>原因は、令和7年度税制改正で導入された基礎控除の特例が階段状になっていることです。合計所得金額が336万円以下なら基礎控除88万円、336万円を超えると68万円と、境界で20万円下がります。<br>
+      本業年収438万〜475万円の人は、本業だけなら336万円以下に収まるのに、<strong>副業所得を足すと段差を越えてしまい、基礎控除が20万円減る</strong>——だから副業所得に対する負担率が最大24%まで上がります。<br>
+      この階段状の基礎控除は<strong>令和7年分・令和8年分だけの措置</strong>で、令和9年分からは一律58万円に戻る予定です。つまりこの逆転は2026年分（2027年の申告）に限った現象です。該当しそうな年収帯の方は、<a href="#" onclick="document.querySelector('.hero-band').scrollIntoView({behavior:'smooth'});return false;">上のシミュレーター</a>にご自身の数字を入れて確認してみてください。
+    </div>
+    <p class="quick-note" style="margin-top:14px;">※いずれも当サイトが国税庁の速算表・基礎控除表に基づいて試算した概算です。扶養控除・iDeCo・医療費控除などがある場合は金額が変わります。正確な税額は税務署または税理士にご確認ください。</p>
   </section>
 
   <!-- コラム欄：最初の記事公開時に style="display:none" を外す。カードは最新3件まで（古いものから削除）、全記事は articles/ に載せる -->
