@@ -86,7 +86,7 @@
     --surface:#ffffff;
     --ink:#1b2b28;
     --ink-2:#47555a;
-    --muted:#87949b;
+    --muted:#64727a;
     --grid:#e3e9e7;
     --baseline:#c3cecb;
     --border:rgba(27,43,40,0.08);
@@ -113,6 +113,12 @@
     -webkit-font-smoothing:antialiased;
   }
   a{color:var(--accent);}
+  /* 日本語を文節単位で改行し、行末に1〜2文字だけ残る折り返しを防ぐ（対応ブラウザのみ有効・非対応でも従来どおり表示） */
+  body{word-break:auto-phrase;overflow-wrap:break-word;}
+  table{word-break:normal;}
+  h1,h2,h3,summary,.a-title{text-wrap:balance;}
+  p,li,.a,.sub,.alert,.goodnote,.a-desc{text-wrap:pretty;}
+  .faq .a{word-break:normal;}
   .wrap{max-width:960px;margin:0 auto;padding:0 18px;}
 
   /* ===== ヘッダー ===== */
@@ -253,20 +259,31 @@
   .hero-figure .note.warn{color:var(--critical);background:#fbeeee;border:1px solid #edcece;}
   .hero-figure .note.mid{color:var(--ink-2);background:#f1f4f3;border:1px solid var(--grid);}
 
-  /* 20万円ラインメーター */
-  .line-meter{max-width:560px;margin:20px auto 4px;}
+  /* 20万円ラインメーター：ラインの位置を縦線で示し、超えた分は別の色で見せる */
+  .line-meter{max-width:560px;margin:22px auto 4px;}
+  .line-meter .track{position:relative;}
   .line-meter .bar{
-    height:16px;border-radius:999px;background:#eef1f0;border:1px solid var(--grid);
+    position:relative;height:16px;border-radius:999px;background:#eef1f0;border:1px solid var(--grid);
     overflow:hidden;box-shadow:inset 0 1px 2px rgba(20,50,43,.06);
   }
   .line-meter .fill{
-    height:100%;border-radius:999px;min-width:0;
+    position:absolute;left:0;top:0;bottom:0;width:0;border-radius:0 999px 999px 0;
     background:linear-gradient(90deg,#31b58d,var(--accent));
     transition:width .5s ease;
   }
-  .line-meter .fill.over{background:linear-gradient(90deg,#e0913c,var(--critical));}
-  .line-meter .labels{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:5px;font-weight:600;}
-  .line-meter .labels .goal{color:var(--ink-2);}
+  .line-meter .fill.joined{border-radius:0;}
+  .line-meter .fill-over{
+    position:absolute;top:0;bottom:0;width:0;border-radius:0 999px 999px 0;
+    background:linear-gradient(90deg,#e0913c,var(--critical));
+    transition:width .5s ease,left .5s ease;
+  }
+  .line-meter .mark{
+    position:absolute;top:-6px;bottom:-6px;width:3px;margin-left:-1.5px;
+    background:var(--navy);border-radius:2px;transition:left .5s ease;
+  }
+  .line-meter .labels{position:relative;height:20px;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--muted);}
+  .line-meter .labels span{position:absolute;top:0;white-space:nowrap;}
+  .line-meter .labels .goal{color:var(--navy);transform:translateX(-50%);transition:left .5s ease;}
 
   .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
   @media(min-width:720px){.stat-grid{grid-template-columns:1fr 1fr 1fr;}}
@@ -277,6 +294,21 @@
   .stat .k{font-size:12.5px;color:var(--muted);font-weight:600;}
   .stat .v{font-size:21px;font-weight:700;margin-top:2px;color:var(--navy);}
   .stat .v small{font-size:12px;font-weight:600;color:var(--ink-2);}
+  @media(max-width:719px){.stat.span-sm{grid-column:1/-1;}}
+
+  /* 税額の結論：増える税金と手取りを主役として大きく見せる */
+  .tax-hero{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  .th-item{border-radius:12px;padding:16px 18px;border:1px solid var(--grid);}
+  .th-tax{background:#fdf6ee;border-color:#f1dcc4;}
+  .th-net{background:var(--accent-soft);border-color:var(--accent-line);}
+  .th-k{font-size:13.5px;font-weight:700;color:var(--ink-2);}
+  .th-v{font-size:34px;font-weight:700;line-height:1.3;margin-top:2px;letter-spacing:.01em;font-variant-numeric:tabular-nums;}
+  .th-tax .th-v{color:#9a4d0c;}
+  .th-net .th-v{color:var(--accent-strong);}
+  .th-v small{font-size:16px;margin-left:3px;}
+  .th-sub{font-size:13.5px;color:var(--ink-2);margin-top:6px;font-variant-numeric:tabular-nums;}
+  .th-when{display:block;font-size:12px;color:var(--muted);margin-top:2px;}
+  @media(max-width:560px){.tax-hero{grid-template-columns:1fr;} .th-v{font-size:30px;}}
 
   .alert{
     background:var(--warning-bg);border:1px solid var(--warning-border);
@@ -310,7 +342,7 @@
   .steps li strong{color:var(--ink);}
   .steps li::before{
     counter-increment:s;content:counter(s);
-    position:absolute;left:0;top:11px;width:26px;height:26px;border-radius:50%;
+    position:absolute;left:0;top:10px;width:26px;height:26px;border-radius:50%;
     background:var(--accent-soft);border:1px solid var(--accent-line);
     color:var(--accent-strong);font-weight:700;text-align:center;line-height:25px;font-size:13px;
   }
@@ -319,7 +351,7 @@
   .tips li{margin:10px 0;font-size:15px;list-style:none;padding-left:30px;position:relative;color:var(--ink-2);}
   .tips li strong{color:var(--ink);}
   .tips li::before{
-    content:"✓";position:absolute;left:0;top:2px;
+    content:"✓";position:absolute;left:0;top:3.5px;
     width:19px;height:19px;border-radius:50%;
     background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);
     font-size:11px;line-height:18px;text-align:center;font-weight:700;
@@ -343,6 +375,9 @@
   table.quick th{background:var(--accent-soft);color:var(--navy);font-weight:700;padding:8px 6px;border:1px solid var(--accent-line);font-size:13.5px;}
   table.quick td{padding:8px 6px;border:1px solid var(--grid);color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;}
   table.quick td:first-child{font-weight:700;color:var(--ink);background:#fafcfb;}
+  table.quick tr.zone td{background:#fdf1e7;color:#7a3e0c;}
+  table.quick tr.zone td:first-child{background:#fbe6d4;}
+  table.quick tr.zone.peak td{font-weight:700;}
   .quick-note{font-size:12.5px;color:var(--muted);margin-top:8px;}
   .quick-wrap{overflow-x:auto;}
   /* 数値が折り返さないよう最小幅を確保し、狭い画面では横スクロールさせる */
@@ -352,6 +387,8 @@
   @media(max-width:620px){.scroll-hint{display:block;}}
 
   /* ===== 関連ツール ===== */
+  .article-more{display:block;text-align:center;font-size:14px;font-weight:700;margin-top:14px;text-decoration:none;}
+  .article-more:hover{text-decoration:underline;}
   .article-list a{
     display:block;padding:15px 17px;border:1px solid var(--grid);border-radius:12px;
     margin:10px 0;text-decoration:none;background:#fbfdfc;
@@ -371,7 +408,7 @@
   }
   .faq summary::-webkit-details-marker{display:none;}
   .faq summary::before{
-    content:"Q";position:absolute;left:0;top:12px;
+    content:"Q";position:absolute;left:0;top:15px;
     width:21px;height:21px;border-radius:6px;background:var(--accent-soft);color:var(--accent);
     border:1px solid var(--accent-line);
     font-size:12px;line-height:20px;text-align:center;font-weight:700;
@@ -415,6 +452,7 @@
     .stat .v small{font-size:11px;}
     .btn{font-size:16px;}
     .steps li{font-size:14px;}
+    .steps li::before{top:9px;}
   }
   @media(max-width:374px){
     .stat-grid{grid-template-columns:1fr;}
@@ -510,9 +548,12 @@
         <div class="value" id="judgeValue">—</div>
         <div class="note" id="judgeNote"></div>
       </div>
-      <div class="line-meter">
-        <div class="bar"><div class="fill" id="meterFill" style="width:0%"></div></div>
-        <div class="labels"><span>0円</span><span id="meterMid"></span><span class="goal">20万円ライン</span></div>
+      <div class="line-meter" aria-hidden="true">
+        <div class="track">
+          <div class="bar"><div class="fill" id="meterFill"></div><div class="fill-over" id="meterOver"></div></div>
+          <div class="mark" id="meterMark"></div>
+        </div>
+        <div class="labels"><span id="meterZero">0円</span><span class="goal" id="meterGoal">20万円ライン</span></div>
       </div>
       <div class="stat-grid" id="judgeStats"></div>
       <div id="judgeAlerts"></div>
@@ -528,7 +569,7 @@
       <h2><span class="num">2</span>副業で増える税金と手取り</h2>
       <p class="sub" id="taxSub">本業のみの場合と比べて、税金がいくら増えるかの概算です。</p>
       <div id="taxNotes"></div>
-      <div class="stat-grid" id="taxStats"></div>
+      <div class="tax-hero" id="taxStats"></div>
       <div class="break-bar" id="breakBar"></div>
       <div class="bk-legend" id="bkLegend"></div>
       <p class="bk-note" id="bkNote"></p>
@@ -601,15 +642,15 @@
         <tr><td>500万円</td><td>52,700円</td><td>17.6%</td><td>104万円のまま</td></tr>
         <tr><td>600万円</td><td>60,700円</td><td>20.2%</td><td>104万円のまま</td></tr>
         <tr><td>628万円</td><td>60,700円</td><td>20.2%</td><td>104万円のまま</td></tr>
-        <tr><td>630万円</td><td>100,000円</td><td>33.3%</td><td>104万円→67万円</td></tr>
-        <tr><td>650万円</td><td>113,400円</td><td>37.8%</td><td>104万円→67万円</td></tr>
-        <tr><td><strong>665万円</strong></td><td><strong>123,900円</strong></td><td><strong>41.3%</strong></td><td>104万円→67万円</td></tr>
+        <tr class="zone"><td>630万円</td><td>100,000円</td><td>33.3%</td><td>104万円→67万円</td></tr>
+        <tr class="zone"><td>650万円</td><td>113,400円</td><td>37.8%</td><td>104万円→67万円</td></tr>
+        <tr class="zone peak"><td>665万円</td><td>123,900円</td><td>41.3%</td><td>104万円→67万円</td></tr>
         <tr><td>666万円</td><td>87,000円</td><td>29.0%</td><td>67万円のまま</td></tr>
         <tr><td>700万円</td><td>91,300円</td><td>30.4%</td><td>67万円のまま</td></tr>
       </table>
     </div>
     <p class="scroll-hint">← 表は横にスクロールできます</p>
-    <p class="quick-note">条件は①と同じ（雑所得・経費0円・社会保険料は年収×14.5%・その他控除なし）。</p>
+    <p class="quick-note">条件は①と同じ（雑所得・経費0円・社会保険料は年収×14.5%・その他控除なし）。<strong style="color:#7a3e0c;">オレンジの行</strong>は、副業所得を足すと基礎控除の段差を越えてしまう年収帯です。</p>
     <div class="goodnote" style="margin-top:12px;">
       <strong>本業665万円の人は、666万円の人より税金が36,900円も多くなります。</strong>原因は、令和8年度税制改正後の基礎控除が合計所得金額489万円のところで<strong>104万円から67万円へ、一気に37万円下がる</strong>ことです。<br>
       本業年収629万〜665万円の人は、本業だけなら合計所得が489万円以下に収まるのに、<strong>副業所得30万円を足すと段差を越えてしまい、基礎控除が37万円減ります</strong>。だから副業所得に対する負担率が最大41%まで上がります。年収666万円以上の人は本業だけですでに段差の上にいるため、副業を足しても控除は減りません。<br>
@@ -871,19 +912,28 @@ function render() {
     jn.className = "note mid";
   }
 
-  // メーター
-  const pct = Math.min(100, r.profit / C.filingLine * 100);
-  const fill = $("meterFill");
-  fill.style.width = Math.max(r.profit > 0 ? 2 : 0, pct) + "%";
-  fill.className = "fill" + (r.needFiling ? " over" : "");
-  $("meterMid").textContent = r.needFiling ? "ライン超過" : "10万円";
+  // メーター（20万円ラインの位置を縦線で示し、超えた分は別色で表示）
+  const line = C.filingLine;
+  const scaleMax = Math.max(line * 1.5, r.profit * 1.15);
+  const lp = line / scaleMax * 100;
+  const underPct = r.profit <= 0 ? 0 : r.needFiling ? lp : Math.max(1.5, r.profit / scaleMax * 100);
+  const overPct = r.needFiling ? (r.profit - line) / scaleMax * 100 : 0;
+  $("meterFill").style.width = underPct + "%";
+  $("meterFill").classList.toggle("joined", overPct > 0);
+  $("meterOver").style.left = lp + "%";
+  $("meterOver").style.width = overPct + "%";
+  $("meterMark").style.left = lp + "%";
+  const goal = $("meterGoal");
+  goal.style.left = lp + "%";
+  goal.style.transform = lp < 14 ? "translateX(-2px)" : "translateX(-50%)";
+  $("meterZero").style.visibility = lp < 25 ? "hidden" : "visible";
 
   // 判定の統計
   const remain = C.filingLine - r.profit;
   $("judgeStats").innerHTML = `
     <div class="stat"><div class="k">${judgeBase}</div><div class="v">${yen(r.profit)}</div></div>
     <div class="stat"><div class="k">20万円ラインまで</div><div class="v">${r.needFiling ? `超過 ${yen(r.profit - C.filingLine)}` : `あと ${yen(remain)}`}</div></div>
-    <div class="stat"><div class="k">申告期間（2026年分）</div><div class="v" style="font-size:15.5px;line-height:2;">${C.filingPeriod}</div></div>
+    <div class="stat span-sm"><div class="k">申告期間（2026年分）</div><div class="v" style="font-size:15.5px;line-height:2;">${C.filingPeriod}</div></div>
   `;
 
   // 判定の注意書き
@@ -908,13 +958,18 @@ function render() {
   $("taxNotes").innerHTML = notes.join("");
 
   const rate = r.profit > 0 ? Math.round(r.taxTotal / r.profit * 100) : 0;
+  const num = n => Math.round(n).toLocaleString("ja-JP");
   $("taxStats").innerHTML = `
-    <div class="stat"><div class="k">所得税＋復興特別所得税</div><div class="v">＋${yen(r.effIT)}</div></div>
-    <div class="stat"><div class="k">住民税 <small>（2027年6月〜の請求に上乗せ）</small></div><div class="v">＋${yen(r.dRT)}</div></div>
-    <div class="stat"><div class="k">増える税金の合計</div><div class="v">＋${yen(r.taxTotal)}</div></div>
-    <div class="stat"><div class="k">副業の手取り（年）</div><div class="v">${yen(r.net)}</div></div>
-    <div class="stat"><div class="k">税負担率 <small>（増える税金÷副業所得）</small></div><div class="v">約${rate}<small>%</small></div></div>
-    <div class="stat"><div class="k">月あたりの手取り</div><div class="v">約${yen(Math.round(r.net / 12))}</div></div>
+    <div class="th-item th-tax">
+      <div class="th-k">副業で増える税金（年）</div>
+      <div class="th-v">＋${num(r.taxTotal)}<small>円</small></div>
+      <div class="th-sub">所得税 ＋${yen(r.effIT)}　住民税 ＋${yen(r.dRT)}<span class="th-when">住民税は2027年6月以降の請求に上乗せされます</span></div>
+    </div>
+    <div class="th-item th-net">
+      <div class="th-k">副業の手取り（年）</div>
+      <div class="th-v">${num(r.net)}<small>円</small></div>
+      <div class="th-sub">月あたり 約${yen(Math.round(r.net / 12))}　税負担率 約${rate}%<span class="th-when">税負担率＝増える税金÷副業の所得</span></div>
+    </div>
   `;
 
   // 内訳バー
